@@ -1,0 +1,17 @@
+zookeeper:
+  build: dockerfile/zookeeper
+
+marathon:
+  build: dockerfile/marathon
+  links:
+    - zookeeper
+  environment:
+    - MARATHON_MASTER=ecs
+    - MARATHON_ZK=zk://zookeeper:2181/marathon
+    - ECS_REGION=us-east-1
+    - ECS_CLUSTER=ECSCluster-ECSCluster-1TNQTBB7JGCYU
+    - ECS_DEFAULT_IMAGE=
+  ports:
+    - 8080:8080
+  volumes:
+    - ~/.aws:/root/.aws:ro
